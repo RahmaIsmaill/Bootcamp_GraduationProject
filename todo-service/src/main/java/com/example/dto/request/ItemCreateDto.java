@@ -31,5 +31,5 @@ public class ItemCreateDto {
     @NotNull(message = "taskStatus is required")
     private TaskStatus taskStatus;
 
-    private Long userId; //get from token
+    private Long userId;
 }
