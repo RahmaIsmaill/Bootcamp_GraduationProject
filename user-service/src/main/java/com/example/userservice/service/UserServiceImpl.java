@@ -10,6 +10,7 @@ import com.example.userservice.entity.UserProfile;
 import com.example.userservice.repository.UserProfileRepository;
 import com.example.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,6 +26,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserProfileRepository userProfileRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public UserResponseDto register(UserCreateDto userCreateDto) {
@@ -38,7 +40,7 @@ public class UserServiceImpl implements UserService {
         }
         User user = User.builder()
                 .email(userCreateDto.getEmail())
-                .password(userCreateDto.getPassword())
+                .password(bCryptPasswordEncoder.encode(userCreateDto.getPassword()))
                 .enabled(true)
                 .build();
 
@@ -58,7 +60,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if (dto.getPassword() != null) {
-            user.setPassword(dto.getPassword());
+            user.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
         }
 
         if (dto.getEnabled() != null) {

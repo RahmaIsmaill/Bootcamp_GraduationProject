@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserProfileDto {
-    @NotBlank(message = "Name is required")
+//    @NotBlank(message = "Name is required")
     @Size(max = 50, message = "Name can't exceed 50 characters")
     private String name;
 

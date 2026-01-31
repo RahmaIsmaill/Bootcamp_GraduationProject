@@ -34,6 +34,8 @@ public class Token {
     @Column(nullable = false)
     private LocalDateTime expirationDate;
 
+    private boolean revoked;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private TokenType tokenType;
