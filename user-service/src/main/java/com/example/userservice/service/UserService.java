@@ -8,7 +8,6 @@ import com.example.userservice.dto.response.UserResponseDto;
 
 public interface UserService {
 
-    UserResponseDto register(UserCreateDto userCreateDto);
     UserResponseDto updateUser(Long id,UserUpdateDto userUpdateDto);
     void deleteUser(Long id);
     UserProfileResponseDto createUserProfile(Long id,UserProfileDto userProfileDto);

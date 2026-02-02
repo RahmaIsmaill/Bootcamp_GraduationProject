@@ -7,6 +7,7 @@ import com.example.userservice.dto.response.UserProfileResponseDto;
 import com.example.userservice.dto.response.UserResponseDto;
 import com.example.userservice.entity.User;
 import com.example.userservice.entity.UserProfile;
+import com.example.userservice.exception.GlobalException;
 import com.example.userservice.repository.UserProfileRepository;
 import com.example.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -28,32 +30,12 @@ public class UserServiceImpl implements UserService {
     private final UserProfileRepository userProfileRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Override
-    public UserResponseDto register(UserCreateDto userCreateDto) {
-
-        if(userRepository.existsByEmail(userCreateDto.getEmail())) {
-            throw new IllegalArgumentException("Email already exists");
-        }
-
-        if(!userCreateDto.getPassword().equals(userCreateDto.getPasswordConfirm())){
-            throw new IllegalArgumentException("Passwords don't match");
-        }
-        User user = User.builder()
-                .email(userCreateDto.getEmail())
-                .password(bCryptPasswordEncoder.encode(userCreateDto.getPassword()))
-                .enabled(true)
-                .build();
-
-        userRepository.save(user);
-
-        return mapToResponse(user);
-    }
 
     @Override
     public UserResponseDto updateUser(Long id,UserUpdateDto dto) {
 
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new GlobalException(Map.of("Error","User not found")));
 
         if (dto.getEmail() != null) {
             user.setEmail(dto.getEmail());
@@ -73,7 +55,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new GlobalException(Map.of("Error","User not found")));
 
         userRepository.delete(user);
     }
@@ -81,7 +63,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserProfileResponseDto createUserProfile(Long id,UserProfileDto userProfileDto) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new GlobalException(Map.of("Error","User not found")));
 
         UserProfile profile = userProfileRepository
                 .findByUserId(id)
@@ -127,7 +109,7 @@ public class UserServiceImpl implements UserService {
 
             return "/uploads/" + fileName;
         } catch (IOException e) {
-            throw new RuntimeException("Failed to upload image");
+            throw new GlobalException(Map.of("Error","Failed to upload image"));
         }
     }
 
