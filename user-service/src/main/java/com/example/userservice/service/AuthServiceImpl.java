@@ -33,6 +33,7 @@ public class AuthServiceImpl implements AuthService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final EmailService emailService;
     private final JwtService jwtService;
+    private final UserService userService;
     private final AuthenticationManager authenticationManager;
 
     @Override
@@ -54,12 +55,13 @@ public class AuthServiceImpl implements AuthService {
 
         userRepository.save(user);
 
-       generateOtp(user);
+        OtpGenerationResponse otpGenerationResponse= generateOtp(user);
 
         return UserResponseDto.builder()
                 .id(user.getId())
                 .email(user.getEmail())
                 .enabled(user.isEnabled())
+                .otp(otpGenerationResponse.getOtp())
                 .build();
     }
 
@@ -172,7 +174,8 @@ public UserLoginResponse login(UserLoginDto userLoginDto) {
     }
 
     public OtpGenerationResponse forgetPassword(String token) throws MessagingException {
-        Claims claims = jwtService.parseJwtClaims(token);
+
+        Claims claims = jwtService.parseJwtClaims(token.replace("Bearer", "").trim());
         String email = claims.getSubject();
 
         User user = userRepository.findByEmail(email)
@@ -184,7 +187,7 @@ public UserLoginResponse login(UserLoginDto userLoginDto) {
 
     public void changePassword(String token, String otp, UserResetPassword userResetPassword) {
 
-        Claims claims = jwtService.parseJwtClaims(token);
+        Claims claims = jwtService.parseJwtClaims(token.replace("Bearer", "").trim());
         String email = claims.getSubject();
 
         User user = userRepository.findByEmail(email)
@@ -212,6 +215,19 @@ public UserLoginResponse login(UserLoginDto userLoginDto) {
         userRepository.save(user);
 
         otpRepository.delete(otp1);
+    }
+
+    @Override
+    public UserResponseDto checkToken(String token)  {
+        if (token == null || !token.startsWith("Bearer ")) {
+            throw new GlobalException(Map.of("token", "Invalid token"));
+        }
+        if(!jwtService.isValidToken(token.substring(7))){
+            throw new GlobalException(Map.of("token", "Token is invalid or expired"));
+
+        }
+
+        return userService.getCurrentUser(token.substring(7));
     }
 
 

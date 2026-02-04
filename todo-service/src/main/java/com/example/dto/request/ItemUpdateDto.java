@@ -25,5 +25,5 @@ public class ItemUpdateDto {
 
     private TaskStatus taskStatus;
 
-    private Long userId; //get from token
+//    private Long userId; //get from token
 }

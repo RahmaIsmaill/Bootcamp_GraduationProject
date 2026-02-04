@@ -18,4 +18,5 @@ public interface AuthService {
     OtpGenerationResponse reGenerateOtp(String email) throws MessagingException;
     OtpGenerationResponse forgetPassword(String token) throws MessagingException;
     void changePassword(String token, String otp, UserResetPassword userResetPassword);
+    UserResponseDto checkToken(String token) ;
 }

@@ -11,34 +11,32 @@ import java.util.List;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler({MethodArgumentNotValidException.class, GlobalException.class})
-    public ResponseEntity<ErrorResponse> handleValidationExceptions(Exception exception) {
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> handleValidationExceptions(
+            MethodArgumentNotValidException exception) {
 
         ErrorResponse errorResponse = new ErrorResponse();
 
-
-        if (exception instanceof MethodArgumentNotValidException validationException)  {
-            List<FieldError> fieldErrors = validationException.getBindingResult().getFieldErrors();
-
-            for (FieldError fieldError : fieldErrors) {
-                errorResponse.addError(fieldError.getField(), fieldError.getDefaultMessage());
-            }
-        }
-
-        if (exception instanceof GlobalException GlobalException) {
-            GlobalException.getErrors().forEach(errorResponse::addError);
-        }
+        exception.getBindingResult()
+                .getFieldErrors()
+                .forEach(error ->
+                        errorResponse.addError(
+                                error.getField(),
+                                error.getDefaultMessage()
+                        )
+                );
 
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGeneralException(Exception exception) {
+
+    @ExceptionHandler(GlobalException.class)
+    public ResponseEntity<ErrorResponse> handleGlobalException(GlobalException exception) {
 
         ErrorResponse errorResponse = new ErrorResponse();
-        errorResponse.addError("Server Error", exception.getMessage());
+        exception.getErrors().forEach(errorResponse::addError);
 
-        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
 }

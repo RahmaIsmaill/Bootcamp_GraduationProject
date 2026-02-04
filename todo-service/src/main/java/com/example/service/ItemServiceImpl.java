@@ -21,9 +21,11 @@ import java.util.Map;
 public class ItemServiceImpl implements ItemService {
 
     private final ItemRepository itemRepository;
+    private final UserClientService userClientService;
 
     @Override
-    public ItemResponseDto createItem(ItemCreateDto itemCreateDto) {
+    public ItemResponseDto createItem(ItemCreateDto itemCreateDto, String token) {
+        Long userId = getUserIdFromToken(token);
 
         ItemDetails itemDetails = ItemDetails.builder()
                 .createdAt(LocalDateTime.now())
@@ -34,7 +36,7 @@ public class ItemServiceImpl implements ItemService {
 
         Item item = Item.builder()
                 .title(itemCreateDto.getTitle())
-                .userId(itemCreateDto.getUserId())
+                .userId(userId)
                 .itemDetails(itemDetails)
                 .build();
 
@@ -43,10 +45,15 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemResponseDto updateItem(Long taskId, ItemUpdateDto itemUpdateDto) {
+    public ItemResponseDto updateItem(Long taskId, ItemUpdateDto itemUpdateDto, String token) {
+        Long userId = getUserIdFromToken(token);
 
         Item item = itemRepository.findById(taskId)
                 .orElseThrow(() -> new GlobalException(Map.of("Error", "Task not found")));
+
+        if (!item.getUserId().equals(userId)) {
+            throw new GlobalException(Map.of("Error", "You are not allowed to update this task"));
+        }
 
         ItemDetails itemDetails = item.getItemDetails();
 
@@ -67,34 +74,51 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void deleteItem(Long id) {
+    public void deleteItem(Long id, String token) {
+        Long userId = getUserIdFromToken(token);
+
         Item item = itemRepository.findById(id)
                 .orElseThrow(() -> new GlobalException(Map.of("Error", "Task not found")));
+
+        if (!item.getUserId().equals(userId)) {
+            throw new GlobalException(Map.of("Error", "You are not allowed to delete this task"));
+        }
+
         itemRepository.delete(item);
     }
 
     @Override
-    public ItemResponseDto findById(Long id) {
+    public ItemResponseDto findById(Long id, String token) {
+        Long userId = getUserIdFromToken(token);
+
         Item item = itemRepository.findById(id)
                 .orElseThrow(() -> new GlobalException(Map.of("Error", "Task not found")));
+
+        if (!item.getUserId().equals(userId)) {
+            throw new GlobalException(Map.of("Error", "You are not allowed to view this task"));
+        }
+
         return mapToResponseDTO(item);
     }
 
     @Override
-    public Page<ItemResponseDto> findAll(Pageable pageable) {
-        return itemRepository.findAll(pageable)
+    public Page<ItemResponseDto> findAll(Pageable pageable, String token) {
+        Long userId = getUserIdFromToken(token);
+        return itemRepository.findAllByUserId(userId, pageable)
                 .map(this::mapToResponseDTO);
     }
 
     @Override
-    public Page<ItemResponseDto> findByName(String name, Pageable pageable) {
-        return itemRepository.findAllByName(name, pageable)
+    public Page<ItemResponseDto> findByName(String name, Pageable pageable, String token) {
+        Long userId = getUserIdFromToken(token);
+        return itemRepository.findAllByName(name, userId, pageable)
                 .map(this::mapToResponseDTO);
     }
 
     @Override
-    public Page<ItemResponseDto> findByPriority(TaskPriority priority, Pageable pageable) {
-        return itemRepository.findAllByPriority(priority, pageable)
+    public Page<ItemResponseDto> findByPriority(TaskPriority priority, Pageable pageable, String token) {
+        Long userId = getUserIdFromToken(token);
+        return itemRepository.findAllByPriority(priority, userId, pageable)
                 .map(this::mapToResponseDTO);
     }
 
@@ -108,5 +132,9 @@ public class ItemServiceImpl implements ItemService {
                 .taskStatus(d.getTaskStatus())
                 .createdAt(d.getCreatedAt())
                 .build();
+    }
+
+    private Long getUserIdFromToken(String token) {
+        return userClientService.getUserIdFromToken(token);
     }
 }

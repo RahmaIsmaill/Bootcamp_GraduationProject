@@ -15,6 +15,5 @@ public class UserProfileDto {
     @Size(max = 50, message = "Name can't exceed 50 characters")
     private String name;
 
-
     private MultipartFile coverImage;
 }

@@ -10,6 +10,8 @@ import com.example.userservice.entity.UserProfile;
 import com.example.userservice.exception.GlobalException;
 import com.example.userservice.repository.UserProfileRepository;
 import com.example.userservice.repository.UserRepository;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserProfileRepository userProfileRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final JwtService jwtService;
 
 
     @Override
@@ -90,6 +93,16 @@ public class UserServiceImpl implements UserService {
                 profile.getCoverImageUrl()
         );
     }
+
+    @Override
+    public UserResponseDto getCurrentUser(String jwtToken) {
+        Claims claims = jwtService.parseJwtClaims(jwtToken);
+        String email = claims.getSubject();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new GlobalException(Map.of("Error","User not found")));
+        return mapToResponse(user);
+    }
+
 
     private UserResponseDto mapToResponse(User user) {
         return UserResponseDto.builder()

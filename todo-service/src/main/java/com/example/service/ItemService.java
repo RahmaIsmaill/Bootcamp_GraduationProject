@@ -9,17 +9,17 @@ import org.springframework.data.domain.Pageable;
 
 public interface ItemService {
 
-    ItemResponseDto createItem(ItemCreateDto itemCreateDto);
+    ItemResponseDto createItem(ItemCreateDto itemCreateDto,String token);
 
-    ItemResponseDto updateItem(Long taskId, ItemUpdateDto itemUpdateDto);
+    ItemResponseDto updateItem(Long taskId, ItemUpdateDto itemUpdateDto,String token);
 
-    void deleteItem(Long id);
+    void deleteItem(Long id,String token);
 
-    ItemResponseDto findById(Long id);
+    ItemResponseDto findById(Long id,String token);
 
-    Page<ItemResponseDto> findAll(Pageable pageable);
+    Page<ItemResponseDto> findAll(Pageable pageable,String token);
 
-    Page<ItemResponseDto> findByName(String name, Pageable pageable);
+    Page<ItemResponseDto> findByName(String name, Pageable pageable,String token);
 
-    Page<ItemResponseDto> findByPriority(TaskPriority priority, Pageable pageable);
+    Page<ItemResponseDto> findByPriority(TaskPriority priority, Pageable pageable,String token);
 }

@@ -11,5 +11,6 @@ public interface UserService {
     UserResponseDto updateUser(Long id,UserUpdateDto userUpdateDto);
     void deleteUser(Long id);
     UserProfileResponseDto createUserProfile(Long id,UserProfileDto userProfileDto);
+    UserResponseDto getCurrentUser(String jwtToken);
 
 }
