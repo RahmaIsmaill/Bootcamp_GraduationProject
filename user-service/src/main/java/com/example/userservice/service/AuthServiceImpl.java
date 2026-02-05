@@ -222,7 +222,7 @@ public UserLoginResponse login(UserLoginDto userLoginDto) {
         if (token == null || !token.startsWith("Bearer ")) {
             throw new GlobalException(Map.of("token", "Invalid token"));
         }
-        if(!jwtService.isValidToken(token.substring(7))){
+        if(!jwtService.isValidToken(token.substring(7).trim())){
             throw new GlobalException(Map.of("token", "Token is invalid or expired"));
 
         }

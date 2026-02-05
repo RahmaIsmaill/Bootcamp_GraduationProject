@@ -14,11 +14,23 @@ import java.util.Optional;
 
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
-    @Query("SELECT i FROM Item i WHERE LOWER(i.title) LIKE LOWER(CONCAT('%', :name, '%'))")
-    Page<Item> findAllByName(@Param("name") String name,Long userId, Pageable pageable);
+    @Query("""
+       SELECT i FROM Item i
+       WHERE i.userId = :userId
+       AND i.itemDetails.taskPriority = :priority
+       """)
+    Page<Item> findAllByPriority(@Param("priority") TaskPriority priority,
+                                 @Param("userId") Long userId,
+                                 Pageable pageable);
 
-    @Query("SELECT i FROM Item i WHERE i.itemDetails.taskPriority = :priority")
-    Page<Item> findAllByPriority(@Param("priority") TaskPriority priority,Long userId, Pageable pageable);
+    @Query("""
+       SELECT i FROM Item i
+       WHERE i.userId = :userId
+       AND LOWER(i.title) LIKE LOWER(CONCAT('%', :name, '%'))
+       """)
+    Page<Item> findAllByName(@Param("name") String name,
+                             @Param("userId") Long userId,
+                             Pageable pageable);
 
     Page<Item> findAllByUserId(Long userId, Pageable pageable);
 }

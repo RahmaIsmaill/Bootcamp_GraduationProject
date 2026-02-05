@@ -73,14 +73,15 @@ public class JwtService {
     public boolean isTokenExpired(String token) {
         Claims claims = jwtParser.parseClaimsJws(token).getBody();
         Date expiration = claims.getExpiration();
-        return !expiration.before(new Date());
+        return expiration.before(new Date());
     }
+
 
     public boolean isValidToken(String token, UserDetails userDetails) {
         try {
             Claims claims = parseJwtClaims(token);
             String email = claims.getSubject();
-            return (email.equals(userDetails.getUsername()) && isTokenExpired(token));
+            return (email.equals(userDetails.getUsername()) && !isTokenExpired(token));
         } catch (Exception ex) {
             return false;
         }
@@ -91,14 +92,16 @@ public class JwtService {
         try {
             Claims claims = parseJwtClaims(token);
             String email = claims.getSubject();
-            User user = userRepository.findByEmail(email)
+
+            userRepository.findByEmail(email)
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
-            return (isTokenExpired(token));
+            return !isTokenExpired(token);
         } catch (Exception ex) {
             return false;
         }
     }
+
 
     public void saveUserToken(User user, String jwtToken) {
         Token token = Token.builder()
