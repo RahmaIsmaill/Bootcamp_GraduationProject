@@ -20,15 +20,16 @@ The system uses JWT for authentication, and all requests to Todo Service must be
 ```
 toda-app/
 ├─ user-service/
-│ ├─ src/
-│ ├─ pom.xml
-│ └─ README.md (User Service detailed docs)
+│  ├─ src/
+│  ├─ pom.xml
+│  └─ README.md (User Service detailed docs)
 ├─ todo-service/
-│ ├─ src/
-│ ├─ pom.xml
-│ └─ README.md (Todo Service detailed docs)
+│  ├─ src/
+│  ├─ pom.xml
+│  └─ README.md (Todo Service detailed docs)
 └─ README.md (This file)
 ```
+
 ---
 
 ## Technologies Used Across Services
@@ -64,9 +65,9 @@ Handles user authentication and management.
 cd user-service
 mvn spring-boot:run
 ```
-[Swagger UI](http://localhost:8083/swagger-ui/index.html)
+[Swagger UI](http://localhost:8083/swagger-ui/index.html) – access API docs  
+[Full Documentation](user-service/README.md) – detailed User Service docs
 
-[Full Documentation](user-service/README.md) See user-service/README.md
 
 ---
 ### 2. Todo Service
@@ -84,9 +85,9 @@ cd todo-service
 mvn spring-boot:run
 ```
 
-[Swagger UI](http://localhost:8082/swagger-ui/index.html)
+[Swagger UI](http://localhost:8082/swagger-ui/index.html) – access API docs  
+[Full Documentation](todo-service/README.md) – detailed Todo Service docs
 
-[Full Documentation](todo-service/README.md) See todo-service/README.md
 
 
 ## Architecture Diagram
