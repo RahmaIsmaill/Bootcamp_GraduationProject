@@ -3,7 +3,7 @@ package com.example.entity;
 import com.example.enums.TaskPriority;
 import com.example.enums.TaskStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import lombok.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;

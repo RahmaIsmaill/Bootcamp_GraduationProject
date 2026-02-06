@@ -1,7 +1,9 @@
 package com.example.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -13,7 +15,8 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class UserClientService {
 
-    private final RestTemplate restTemplate;
+//    With RestTemplate
+   /* private final RestTemplate restTemplate;
 
     @Value("${user.service.url}")
     private String userServiceUrl;
@@ -32,5 +35,16 @@ public class UserClientService {
         );
 
         return response.getBody();
+    }*/
+
+
+
+//    With FeignClient
+    @Autowired
+    private  UserFeignClientService userFeignClientService;
+    public Long getUserIdFromToken(String token) {
+        return userFeignClientService.checkToken(token);
     }
+
+
 }

@@ -22,7 +22,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -39,12 +41,12 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public UserResponseDto register(UserCreateDto userCreateDto) throws MessagingException {
 
-        if(userRepository.existsByEmail(userCreateDto.getEmail())) {
-            throw new GlobalException(Map.of("Error","Email already exists"));
+        if (userRepository.existsByEmail(userCreateDto.getEmail())) {
+            throw new GlobalException(Map.of("Error", "Email already exists"));
         }
 
-        if(!userCreateDto.getPassword().equals(userCreateDto.getPasswordConfirm())){
-            throw new GlobalException(Map.of("Error","Passwords don't match"));
+        if (!userCreateDto.getPassword().equals(userCreateDto.getPasswordConfirm())) {
+            throw new GlobalException(Map.of("Error", "Passwords don't match"));
         }
         User user = User.builder()
                 .email(userCreateDto.getEmail())
@@ -55,7 +57,7 @@ public class AuthServiceImpl implements AuthService {
 
         userRepository.save(user);
 
-        OtpGenerationResponse otpGenerationResponse= generateOtp(user);
+        OtpGenerationResponse otpGenerationResponse = reGenerateOtp(user.getEmail());
 
         return UserResponseDto.builder()
                 .id(user.getId())
@@ -65,53 +67,53 @@ public class AuthServiceImpl implements AuthService {
                 .build();
     }
 
-@Override
-public UserLoginResponse login(UserLoginDto userLoginDto) {
+    @Override
+    public UserLoginResponse login(UserLoginDto userLoginDto) {
 
-    User user = userRepository.findByEmail(userLoginDto.getEmail())
-            .orElseThrow(() -> new GlobalException(Map.of("Error","User not found")));
+        User user = userRepository.findByEmail(userLoginDto.getEmail())
+                .orElseThrow(() -> new GlobalException(Map.of("Error", "User not found")));
 
-    if (!user.isEnabled()) {
-        throw  new GlobalException(Map.of("Error","User not activated. Please verify OTP."));
-    }
-    System.out.println("RAW: " + userLoginDto.getPassword());
-    System.out.println("HASH: " + user.getPassword());
-    System.out.println(
-            bCryptPasswordEncoder.matches(userLoginDto.getPassword(), user.getPassword())
-    );
-
-
-    try {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        userLoginDto.getEmail(),
-                        userLoginDto.getPassword()
-                )
+        if (!user.isEnabled()) {
+            throw new GlobalException(Map.of("Error", "User not activated. Please verify OTP."));
+        }
+        System.out.println("RAW: " + userLoginDto.getPassword());
+        System.out.println("HASH: " + user.getPassword());
+        System.out.println(
+                bCryptPasswordEncoder.matches(userLoginDto.getPassword(), user.getPassword())
         );
 
-    } catch (BadCredentialsException e) {
-        throw new GlobalException(Map.of("Error","Invalid email or password"));
+
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            userLoginDto.getEmail(),
+                            userLoginDto.getPassword()
+                    )
+            );
+
+        } catch (BadCredentialsException e) {
+            throw new GlobalException(Map.of("Error", "Invalid email or password"));
+        }
+
+        String token = jwtService.generateToken(user, new HashMap<>());
+        jwtService.saveUserToken(user, token);
+
+        return UserLoginResponse.builder()
+                .email(user.getEmail())
+                .token(token)
+                .build();
     }
-
-    String token = jwtService.generateToken(user, new HashMap<>());
-    jwtService.saveUserToken(user, token);
-
-    return UserLoginResponse.builder()
-            .email(user.getEmail())
-            .token(token)
-            .build();
-}
 
     public void activateUser(String email, String otp) {
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new GlobalException(Map.of("Error","User not found")));
+                .orElseThrow(() -> new GlobalException(Map.of("Error", "User not found")));
 
         Otp userOtp = otpRepository.findByUser(user)
-                .orElseThrow(() -> new GlobalException(Map.of("Error","OTP not found")));
+                .orElseThrow(() -> new GlobalException(Map.of("Error", "OTP not found")));
 
-        if(userOtp.getExpirationTime().isBefore(LocalDateTime.now())){
-            throw new GlobalException(Map.of("Error","OTP expired"));
+        if (userOtp.getExpirationTime().isBefore(LocalDateTime.now())) {
+            throw new GlobalException(Map.of("Error", "OTP expired"));
         }
 
         if (userOtp.getOtp().equals(otp)) {
@@ -119,51 +121,28 @@ public UserLoginResponse login(UserLoginDto userLoginDto) {
             userRepository.save(user);
             otpRepository.delete(userOtp);
         } else {
-            throw new GlobalException(Map.of("Error","Invalid OTP"));
+            throw new GlobalException(Map.of("Error", "Invalid OTP"));
         }
     }
 
 
-    public OtpGenerationResponse  generateOtp(User user) throws MessagingException {
-
-        String otpValue = String.valueOf( (int)(Math.random() * 900000) + 100000);
-      Otp otp=Otp.builder()
-              .otp(otpValue)
-              .expirationTime(LocalDateTime.now().plusMinutes(2))
-              .user(user)
-      .build();
-
-      otpRepository.save(otp);
-
-      emailService.sendOtp(user.getEmail(),otpValue);
-      return OtpGenerationResponse.builder()
-              .expirationTime(otp.getExpirationTime())
-              .otp(otp.getOtp())
-              .build();
-  }
-
     public OtpGenerationResponse reGenerateOtp(String email) throws MessagingException {
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new GlobalException(Map.of("Error","User not found")));
+                .orElseThrow(() -> new GlobalException(Map.of("Error", "User not found")));
 
-        Otp userOtp = otpRepository.findByUser(user)
-                .orElseThrow(() -> new GlobalException(Map.of("Error","OTP not found")));
+        List<Otp> oldOtps = otpRepository.findAllByUser(user);
+        if (!oldOtps.isEmpty()) {
+            otpRepository.deleteAll(oldOtps);
+        }
 
-        Otp newOtp;
-
-        if(userOtp.getExpirationTime().isBefore(LocalDateTime.now())) {
-            String otpValue = String.valueOf((int) (Math.random() * 900000) + 100000);
-            newOtp = Otp.builder()
+        String otpValue = String.valueOf((int) (Math.random() * 900000) + 100000);
+           Otp newOtp = Otp.builder()
                     .otp(otpValue)
-                    .expirationTime(LocalDateTime.now().plusSeconds(90))
+                    .expirationTime(LocalDateTime.now().plusMinutes(2))
                     .user(user)
                     .build();
-            otpRepository.delete(userOtp);
             otpRepository.save(newOtp);
-        } else {
-            newOtp = userOtp;
-        }
 
         emailService.sendOtp(user.getEmail(), newOtp.getOtp());
 
@@ -173,40 +152,35 @@ public UserLoginResponse login(UserLoginDto userLoginDto) {
                 .build();
     }
 
-    public OtpGenerationResponse forgetPassword(String token) throws MessagingException {
-
-        Claims claims = jwtService.parseJwtClaims(token.replace("Bearer", "").trim());
-        String email = claims.getSubject();
+    public OtpGenerationResponse forgetPassword(String email) throws MessagingException {
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new GlobalException(Map.of("Error","User not found")));
+                .orElseThrow(() -> new GlobalException(Map.of("Error", "User not found")));
 
-        return generateOtp(user);
+        return reGenerateOtp(user.getEmail());
     }
 
 
-    public void changePassword(String token, String otp, UserResetPassword userResetPassword) {
+    public void changePassword(String email, String otp, UserResetPassword userResetPassword) {
 
-        Claims claims = jwtService.parseJwtClaims(token.replace("Bearer", "").trim());
-        String email = claims.getSubject();
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new GlobalException(Map.of("Error","User not found")));
+                .orElseThrow(() -> new GlobalException(Map.of("Error", "User not found")));
 
         Otp otp1 = otpRepository.findByUser(user)
-                .orElseThrow(() -> new GlobalException(Map.of("Error","Otp not found")));
+                .orElseThrow(() -> new GlobalException(Map.of("Error", "Otp not found")));
 
         if (otp1.getExpirationTime().isBefore(LocalDateTime.now())) {
-            throw new GlobalException(Map.of("Error","OTP expired"));
+            throw new GlobalException(Map.of("Error", "OTP expired"));
         }
 
         if (!otp1.getOtp().equals(otp)) {
-            throw new GlobalException(Map.of("Error","Invalid OTP"));
+            throw new GlobalException(Map.of("Error", "Invalid OTP"));
         }
 
         if (!userResetPassword.getPassword()
                 .equals(userResetPassword.getPasswordConfirm())) {
-            throw new GlobalException(Map.of("Error","Passwords do not match"));
+            throw new GlobalException(Map.of("Error", "Passwords do not match"));
         }
 
         user.setPassword(
@@ -214,15 +188,15 @@ public UserLoginResponse login(UserLoginDto userLoginDto) {
         );
         userRepository.save(user);
 
-        otpRepository.delete(otp1);
+        otpRepository.delete(otp1); //One-Time Password , available for one use
     }
 
     @Override
-    public UserResponseDto checkToken(String token)  {
+    public UserResponseDto checkToken(String token) {
         if (token == null || !token.startsWith("Bearer ")) {
             throw new GlobalException(Map.of("token", "Invalid token"));
         }
-        if(!jwtService.isValidToken(token.substring(7).trim())){
+        if (!jwtService.isValidToken(token.substring(7).trim())) {
             throw new GlobalException(Map.of("token", "Token is invalid or expired"));
 
         }

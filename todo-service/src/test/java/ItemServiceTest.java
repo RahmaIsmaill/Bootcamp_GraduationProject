@@ -201,10 +201,10 @@ public class ItemServiceTest {
 
         Page<ItemResponseDto>itemResponseDtos=itemService.findAll(pageable, "FAKE-TOKEN");
         
-        assertEquals("Test", itemResponseDtos.getContent().getFirst().getTitle());
-        assertEquals(TaskPriority.High, itemResponseDtos.getContent().getFirst().getTaskPriority());
-        assertEquals(TaskStatus.Done, itemResponseDtos.getContent().getFirst().getTaskStatus());
-        assertEquals("test update", itemResponseDtos.getContent().getFirst().getDescription());
+        assertEquals("Test", itemResponseDtos.getContent().get(0).getTitle());
+        assertEquals(TaskPriority.High, itemResponseDtos.getContent().get(0).getTaskPriority());
+        assertEquals(TaskStatus.Done, itemResponseDtos.getContent().get(0).getTaskStatus());
+        assertEquals("test update", itemResponseDtos.getContent().get(0).getDescription());
         verify(userClientService, times(1)).getUserIdFromToken("FAKE-TOKEN");
         verify(itemRepository, times(1)).findAllByUserId(1L, pageable);
 
@@ -235,10 +235,10 @@ public class ItemServiceTest {
         when(itemRepository.findAllByName("test",1L,pageable)).thenReturn(page);
 
         Page<ItemResponseDto>items=itemService.findByName("test",pageable, "FAKE-TOKEN");
-        assertEquals("Test", items.getContent().getFirst().getTitle());
-        assertEquals(TaskPriority.High, items.getContent().getFirst().getTaskPriority());
-        assertEquals(TaskStatus.Done, items.getContent().getFirst().getTaskStatus());
-        assertEquals("test update", items.getContent().getFirst().getDescription());
+        assertEquals("Test", items.getContent().get(0).getTitle());
+        assertEquals(TaskPriority.High, items.getContent().get(0).getTaskPriority());
+        assertEquals(TaskStatus.Done, items.getContent().get(0).getTaskStatus());
+        assertEquals("test update", items.getContent().get(0).getDescription());
         verify(userClientService, times(1)).getUserIdFromToken("FAKE-TOKEN");
         verify(itemRepository, times(1)).findAllByName("test",1L,pageable);
 
@@ -269,7 +269,7 @@ public class ItemServiceTest {
 
         Page<ItemResponseDto> items = itemService.findByPriority(TaskPriority.High, pageable, "FAKE-TOKEN");
 
-        ItemResponseDto firstItem = items.getContent().getFirst();
+        ItemResponseDto firstItem = items.getContent().get(0);
         assertEquals("Test", firstItem.getTitle());
         assertEquals(TaskPriority.High, firstItem.getTaskPriority());
         assertEquals(TaskStatus.Done, firstItem.getTaskStatus());

@@ -9,9 +9,9 @@ import java.util.Map;
 @Getter
 @Setter
 public class ErrorResponse {
-    Map<String,String> errorMessages=new HashMap<>();
+    Map<String, String> errorMessages = new HashMap<>();
 
-    public void addError(String field, String message){
-        errorMessages.put(field,message);
+    public void addError(String field, String message) {
+        errorMessages.put(field, message);
     }
 }

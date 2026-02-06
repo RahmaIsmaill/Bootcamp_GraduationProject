@@ -95,8 +95,8 @@ public class AuthController {
             @ApiResponse(responseCode = "400", description = "Invalid token or user not found")
     })
     @PostMapping("/forgetPassword")
-    public ResponseEntity<OtpGenerationResponse> forgotPassword(@RequestHeader("Authorization") String token) throws MessagingException {
-        OtpGenerationResponse otpGenerationResponse = authService.forgetPassword(token);
+    public ResponseEntity<OtpGenerationResponse> forgotPassword(String email) throws MessagingException {
+        OtpGenerationResponse otpGenerationResponse = authService.forgetPassword(email);
         return ResponseEntity.ok(otpGenerationResponse);
     }
 
@@ -107,11 +107,11 @@ public class AuthController {
     })
     @PostMapping("/changePassword")
     public ResponseEntity<String> changePassword(
-            @RequestHeader("Authorization") String token,
+             String email,
             @RequestParam String otp,
             @RequestBody UserResetPassword userResetPassword
     ) {
-        authService.changePassword(token, otp, userResetPassword);
+        authService.changePassword(email, otp, userResetPassword);
         return ResponseEntity.ok("Password changed successfully");
     }
 

@@ -14,7 +14,6 @@ public interface AuthService {
     UserResponseDto register(UserCreateDto userCreateDto) throws MessagingException;
     UserLoginResponse login(UserLoginDto userLoginDto);
     void activateUser(String token, String otp) ;
-    OtpGenerationResponse generateOtp(User user) throws MessagingException;
     OtpGenerationResponse reGenerateOtp(String email) throws MessagingException;
     OtpGenerationResponse forgetPassword(String token) throws MessagingException;
     void changePassword(String token, String otp, UserResetPassword userResetPassword);
