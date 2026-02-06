@@ -65,7 +65,6 @@ Handles user authentication and management.
 cd user-service
 mvn spring-boot:run
 ```
-[Swagger UI](http://localhost:8083/swagger-ui/index.html) – access API docs  
 [Full Documentation](user-service/README.md) – detailed User Service docs
 
 
@@ -85,7 +84,6 @@ cd todo-service
 mvn spring-boot:run
 ```
 
-[Swagger UI](http://localhost:8082/swagger-ui/index.html) – access API docs  
 [Full Documentation](todo-service/README.md) – detailed Todo Service docs
 
 
