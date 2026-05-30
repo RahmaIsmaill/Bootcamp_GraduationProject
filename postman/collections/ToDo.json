@@ -1,0 +1,691 @@
+{
+  "info": {
+    "_postman_id": "082eb7f8-212b-4865-8d18-17e8eec3cfc4",
+    "name": "ToDoApp",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GetByTaskPriority",
+      "id": "8edbf0e3-041d-4e88-a7ef-62467f90122b",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyYWhtYWlzbWFpbDIwQGdtYWlsLmNvbSIsImV4cCI6MTc3MDI3NzQ2NiwiaWF0IjoxNzcwMjczODY2fQ.JDlwwpZaBfGoTj-puOoOlOHbvY3ROgRlWj3Y3olRhCw",
+            "type": "text",
+            "uuid": "f95aaa72-2024-4841-a942-e61b3b81acab"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8082/api/v1/task/by-taskPriority/Medium?page=0&size=2",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8082",
+          "path": [
+            "api",
+            "v1",
+            "task",
+            "by-taskPriority",
+            "Medium"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0",
+              "uuid": "466da964-03fc-4128-a4fa-11f5813ffa27"
+            },
+            {
+              "key": "size",
+              "value": "2",
+              "uuid": "c1420b2f-aa48-4669-91b6-0870080082db"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetTaskByid",
+      "id": "e2c38ec6-6a49-46b6-b9e5-fdec1507ddf8",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyYWhtYWlzbWFpbDIwQGdtYWlsLmNvbSIsImV4cCI6MTc3MDI3NzQ2NiwiaWF0IjoxNzcwMjczODY2fQ.JDlwwpZaBfGoTj-puOoOlOHbvY3ROgRlWj3Y3olRhCw",
+            "type": "text",
+            "uuid": "419add62-a557-4d0c-976a-dc40ad37e89c"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8082/api/v1/task/by-id/14",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8082",
+          "path": [
+            "api",
+            "v1",
+            "task",
+            "by-id",
+            "14"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetByTaskName",
+      "id": "c4956f83-8691-496b-be9a-51ead226ba83",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyYWhtYWlzbWFpbDIwQGdtYWlsLmNvbSIsImV4cCI6MTc3MDI3NzQ2NiwiaWF0IjoxNzcwMjczODY2fQ.JDlwwpZaBfGoTj-puOoOlOHbvY3ROgRlWj3Y3olRhCw",
+            "type": "text",
+            "uuid": "1d095f78-0de3-4bdd-83e2-e6fde48e41a9"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8082/api/v1/task/by-name/spring?page=0&size=3",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8082",
+          "path": [
+            "api",
+            "v1",
+            "task",
+            "by-name",
+            "spring"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0",
+              "uuid": "c2f0f825-6970-4bfc-9064-3638aa85c82e"
+            },
+            {
+              "key": "size",
+              "value": "3",
+              "uuid": "244c2384-30cc-446c-ae95-00d30262c155"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DeleteTask",
+      "id": "f827f41c-a5e8-4114-b0e1-c1a2b55b9f16",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyYWhtYWlzbWFpbDIwQGdtYWlsLmNvbSIsImV4cCI6MTc3MDI3NzQ2NiwiaWF0IjoxNzcwMjczODY2fQ.JDlwwpZaBfGoTj-puOoOlOHbvY3ROgRlWj3Y3olRhCw",
+            "type": "text",
+            "uuid": "de3440f7-7340-4bc9-9468-6f87e3182af2"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8082/api/v1/task/15",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8082",
+          "path": [
+            "api",
+            "v1",
+            "task",
+            "15"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateTask",
+      "id": "6ea46f23-a29a-4672-88bf-5f4058d404d8",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyYWhtYWlzbWFpbDIwQGdtYWlsLmNvbSIsImV4cCI6MTc3MDI3NzQ2NiwiaWF0IjoxNzcwMjczODY2fQ.JDlwwpZaBfGoTj-puOoOlOHbvY3ROgRlWj3Y3olRhCw",
+            "type": "text",
+            "uuid": "4238de92-0f33-4976-b6f5-10805c56c16e"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"taskPriority\": \"Medium\",\r\n  \"taskStatus\": \"InProgress\"\r\n  }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8082/api/v1/task/14",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8082",
+          "path": [
+            "api",
+            "v1",
+            "task",
+            "14"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetAllTasks",
+      "id": "045d3a4e-55c7-4331-a676-20e1ad01d0f2",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyYWhtYWlzbWFpbDIwQGdtYWlsLmNvbSIsImV4cCI6MTc3MDI3NzQ2NiwiaWF0IjoxNzcwMjczODY2fQ.JDlwwpZaBfGoTj-puOoOlOHbvY3ROgRlWj3Y3olRhCw",
+            "type": "text",
+            "uuid": "449ed0cd-30f7-47da-b131-91836d5c7ff8"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8082/api/v1/task?page=0&size=2",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8082",
+          "path": [
+            "api",
+            "v1",
+            "task"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0",
+              "uuid": "a41a6962-59a1-4395-a5c4-82183d5fc837"
+            },
+            {
+              "key": "size",
+              "value": "2",
+              "uuid": "f5428ae7-883a-4aa4-94e2-afdbde57dc4a"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "AddTask",
+      "id": "de687218-f7c0-4b4c-ac6e-870a970698b9",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyYWhtYWlzbWFpbDIwQGdtYWlsLmNvbSIsImV4cCI6MTc3MDM5Nzc3MCwiaWF0IjoxNzcwMzk0MTcwfQ._zAkH4u51rq6RImQsyJqAYNC2nw5x3f0Tv6GpirhNrA",
+            "type": "text",
+            "uuid": "5fcbc8f2-7819-4e13-8ef5-e3a0062ed10f"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"rahma\",\r\n  \"description\": \"Review JPA and Hibernate\",\r\n  \"taskPriority\": \"Low\",\r\n  \"taskStatus\": \"Done\"\r\n}\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8082/api/v1/task",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8082",
+          "path": [
+            "api",
+            "v1",
+            "task"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Login",
+      "id": "fd308e03-a09a-4bbd-b0a1-ea4f5acbe5ed",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n     \"email\": \"rahmaismail20@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8083/api/v1/auth/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8083",
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Register",
+      "id": "85ebf4b8-ea6f-4297-8d60-1b2f377b4b0b",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"rahmaismail20@gmail.com\",\r\n  \"password\": \"123456\",\r\n  \"passwordConfirm\": \"123456\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8083/api/v1/auth/register",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8083",
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "ActivateUser",
+      "id": "78b6aec7-4b31-4291-92a2-50b2ed47f0ab",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8083/api/v1/auth/activate?email=rahmaismail20@gmail.com&otp=702356",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8083",
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "activate"
+          ],
+          "query": [
+            {
+              "key": "email",
+              "value": "rahmaismail20@gmail.com",
+              "uuid": "b736c2e8-7476-49e2-90e6-8fcf7b0d35d2"
+            },
+            {
+              "key": "otp",
+              "value": "702356",
+              "uuid": "d0babc5b-0104-4fb8-805a-7a4da5d9f6fe"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "checkToken",
+      "id": "b718db67-bbc8-40ce-a89d-389902438570",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyYWhtYWlzbWFpbDIwQGdtYWlsLmNvbSIsImV4cCI6MTc3MDI3NzQ2NiwiaWF0IjoxNzcwMjczODY2fQ.JDlwwpZaBfGoTj-puOoOlOHbvY3ROgRlWj3Y3olRhCw",
+            "type": "text",
+            "uuid": "5eff3458-94cf-4ea6-bb79-1ac9fdd87207"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8083/api/v1/auth/checkToken",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8083",
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "checkToken"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "changePassword",
+      "id": "d7194128-f531-4da5-bf9f-ea86fdc6d987",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyYWhtYWlzbWFpbDEwMjBAZ21haWwuY29tIiwiZXhwIjoxNzcwMDQ2Mzk3LCJpYXQiOjE3NzAwNDI3OTd9.3QLKEzMGZyt5QrqJdUL07164syeV9-c18RKIA01dHP4",
+            "type": "text",
+            "uuid": "a56f65fc-b1e0-46db-bd51-4735a6fb5037"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n   \"password\": \"0000000\",\r\n   \"passwordConfirm\": \"0000000\"\r\n\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8083/api/v1/auth/changePassword?otp=401583",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8083",
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "changePassword"
+          ],
+          "query": [
+            {
+              "key": "otp",
+              "value": "401583",
+              "uuid": "be752ff4-69ad-4fd6-b05e-6cb846f308bc"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "profile",
+      "id": "6e3b707b-1098-41bc-83da-59ccc20979b8",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyYWhtYWlzbWFpbDIwMTBAZ21haWwuY29tIiwiZXhwIjoxNzcwMDQ3NDk2LCJpYXQiOjE3NzAwNDM4OTZ9.7Wa-XTAVgW522JsI1EZuJ8mtcH2rGXKeFazRlDw4yUs",
+            "type": "text",
+            "uuid": "b8040ce0-a970-4f52-afa9-efac4aa68a24"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "name",
+              "value": "Rahmah",
+              "type": "text",
+              "uuid": "4fa22066-aeab-4261-977c-5cde91b88d00"
+            },
+            {
+              "key": "coverImage",
+              "type": "file",
+              "uuid": "08e6cd26-2359-460a-a9f0-e59c7d72fb1f",
+              "src": []
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:8083/api/v1/users/profile/10?coverImageUrl",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8083",
+          "path": [
+            "api",
+            "v1",
+            "users",
+            "profile",
+            "10"
+          ],
+          "query": [
+            {
+              "key": "coverImageUrl",
+              "value": null,
+              "type": "text",
+              "uuid": "ccc264c5-1ddc-4ced-b9cc-0088edccdb42"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "regenerateOtp",
+      "id": "234d7aa4-d234-49c8-a9aa-9e2b3c320cd4",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8083/api/v1/auth/regenerateOtp?email=rahmaismail2010@gmail.com",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8083",
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "regenerateOtp"
+          ],
+          "query": [
+            {
+              "key": "email",
+              "value": "rahmaismail2010@gmail.com",
+              "uuid": "c52d273a-dbe6-4563-8d42-a76c79e3c98b"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "forgetPassword",
+      "id": "a8538246-a55c-4fa0-ae92-8d0131873846",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyYWhtYWlzbWFpbDEwMjBAZ21haWwuY29tIiwiZXhwIjoxNzcwMDQ2Mzk3LCJpYXQiOjE3NzAwNDI3OTd9.3QLKEzMGZyt5QrqJdUL07164syeV9-c18RKIA01dHP4",
+            "type": "text",
+            "uuid": "e52bbc38-9590-4933-9b81-e63292740ffb"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n     \"email\": \"rahmaismail2010@gmail.com\",\r\n    \"password\": \"12345d6\"\r\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8083/api/v1/auth/forgetPassword",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8083",
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "forgetPassword"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "deleteUser",
+      "id": "02cef7e7-f7ec-46dc-bac4-260e5fd3d74b",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8083/api/v1/users/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8083",
+          "path": [
+            "api",
+            "v1",
+            "users",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateUser",
+      "id": "0f026942-5bcc-44b9-9253-b68a056a9429",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyYWhtYWlzbWFpbDEwMjBAZ21haWwuY29tIiwiZXhwIjoxNzcwMDQ2Mzk3LCJpYXQiOjE3NzAwNDI3OTd9.3QLKEzMGZyt5QrqJdUL07164syeV9-c18RKIA01dHP4",
+            "type": "text",
+            "uuid": "1aa2f8b0-26c0-466c-aac8-44cdcde5eed4"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"enabled\":\"true\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8083/api/v1/users/10",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8083",
+          "path": [
+            "api",
+            "v1",
+            "users",
+            "10"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
